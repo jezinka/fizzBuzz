@@ -4,12 +4,12 @@ import spock.lang.Specification
 
 class FizzBuzzTest extends Specification {
 
-    def "getOutput should not return null"() {
+    def "getOutput should not throw NullPointerException"() {
         when:
-        def output = FizzBuzz.getOutput()
+        FizzBuzz.getOutput()
 
         then:
-        output != null
+        notThrown(NullPointerException)
     }
 
     def "getOutput(1) should return 1"() {
