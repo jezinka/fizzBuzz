@@ -2,9 +2,20 @@ package com.jezinka;
 
 public class FizzBuzz {
 
+    private static final int ZERO = 0;
+    private static final int THREE = 3;
+    private static final int FIVE = 5;
+
+    private static final String FIZZ = "Fizz";
+    private static final String BUZZ = "Buzz";
+    private static final String EMPTY_STRING = "";
+
+    private static final int RANGE_START = 1;
+    private static final int RANGE_END = 100;
+
     public static void main(String[] args) {
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = RANGE_START; i <= RANGE_END; i++) {
             System.out.println(getOutput(i));
         }
     }
@@ -12,7 +23,7 @@ public class FizzBuzz {
     private static String getOutput(Integer input) {
 
         if (input == null) {
-            return "";
+            return EMPTY_STRING;
         }
 
         if (!isDivisibleBy3Or5(input)) {
@@ -25,27 +36,23 @@ public class FizzBuzz {
     private static String proceedFizzBuzz(Integer input) {
         StringBuilder output = new StringBuilder();
 
-        if (isDivisibleBy3(input)) {
-            output.append("Fizz");
+        if (isDivisibleBy(input, THREE)) {
+            output.append(FIZZ);
         }
 
-        if (isDivisibleBy5(input)) {
-            output.append("Buzz");
+        if (isDivisibleBy(input, FIVE)) {
+            output.append(BUZZ);
         }
 
         return output.toString();
     }
 
-    private static boolean isDivisibleBy5(Integer input) {
-        return input % 5 == 0;
-    }
-
-    private static boolean isDivisibleBy3(Integer input) {
-        return input % 3 == 0;
+    private static boolean isDivisibleBy(Integer input, Integer divider) {
+        return input % divider == ZERO;
     }
 
     private static boolean isDivisibleBy3Or5(Integer input) {
-        return isDivisibleBy3(input) || isDivisibleBy5(input);
+        return isDivisibleBy(input, THREE) || isDivisibleBy(input, FIVE);
     }
 }
 

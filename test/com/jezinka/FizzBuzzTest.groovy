@@ -4,6 +4,10 @@ import spock.lang.Specification
 
 class FizzBuzzTest extends Specification {
 
+    private static final String FIZZ = "Fizz"
+    private static final String BUZZ = "Buzz"
+    private static final String FIZZ_BUZZ = "FizzBuzz"
+
     def "getOutput should not throw NullPointerException"() {
         when:
         FizzBuzz.getOutput()
@@ -25,21 +29,21 @@ class FizzBuzzTest extends Specification {
         def output = FizzBuzz.getOutput(3)
 
         then:
-        "Fizz" == output
+        FIZZ == output
     }
 
     def "getOutput(5) should return Buzz"() {
         when:
         def output = FizzBuzz.getOutput(5)
         then:
-        "Buzz" == output
+        BUZZ == output
     }
 
     def "getOutput(15) should return FizzBuzz"() {
         when:
         def output = FizzBuzz.getOutput(15)
         then:
-        "FizzBuzz" == output
+        FIZZ_BUZZ == output
     }
 
     def "test getOutput for some values"() {
@@ -48,13 +52,13 @@ class FizzBuzzTest extends Specification {
 
         where:
 
-        output     | input
-        "Fizz"     | 3
-        "2"        | 2
-        "FizzBuzz" | 30
-        "Buzz"     | 10
-        "Fizz"     | 99
-        "17"       | 17
+        output    | input
+        FIZZ      | 3
+        "2"       | 2
+        FIZZ_BUZZ | 30
+        BUZZ      | 10
+        FIZZ      | 99
+        "17"      | 17
     }
 
     def "isDivisibleBy3Or5 return true if number is divisible by 3 or 5 false otherwise"() {
@@ -75,38 +79,22 @@ class FizzBuzzTest extends Specification {
         30 | true
     }
 
-    def "isDivisibleBy3 should return true if number is divisible by 3 false otherwise"() {
+    def "isDivisibleBy should return true if number is divisible by divider false otherwise"() {
         when:
-        def isDivisible = FizzBuzz.isDivisibleBy3(i)
+        def isDivisible = FizzBuzz.isDivisibleBy(i, divider)
 
         then:
         isDivisible == expected
 
         where:
-        i  | expected
-        3  | true
-        5  | false
-        15 | true
-        1  | false
-        7  | false
-        11 | false
-    }
-
-    def "isDivisibleBy5 return true if number is divisible by 5 false otherwise"() {
-        when:
-        def isDivisible = FizzBuzz.isDivisibleBy5(i)
-
-        then:
-        isDivisible == expected
-
-        where:
-        i  | expected
-        3  | false
-        5  | true
-        15 | true
-        1  | false
-        7  | false
-        11 | false
+        i  | divider | expected
+        3  | 3       | true
+        5  | 5       | true
+        15 | 5       | true
+        1  | 2       | false
+        7  | 4       | false
+        11 | 5       | false
+        20 | 10      | true
     }
 }
 
