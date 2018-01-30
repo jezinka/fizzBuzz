@@ -5,9 +5,7 @@ import spock.lang.Specification
 
 class FizzBuzzTest extends Specification {
 
-    private static final String FIZZ = "Fizz"
-    private static final String BUZZ = "Buzz"
-    private static final String FIZZ_BUZZ = "FizzBuzz"
+    private static final String FIZZ_BUZZ = FizzBuzz.FIZZ + FizzBuzz.BUZZ
 
     @org.junit.Rule
     OutputCapture capture = new OutputCapture()
@@ -33,14 +31,14 @@ class FizzBuzzTest extends Specification {
         def output = FizzBuzz.getOutput(3)
 
         then:
-        FIZZ == output
+        FizzBuzz.FIZZ == output
     }
 
     def "getOutput(5) should return Buzz"() {
         when:
         def output = FizzBuzz.getOutput(5)
         then:
-        BUZZ == output
+        FizzBuzz.BUZZ == output
     }
 
     def "getOutput(15) should return FizzBuzz"() {
@@ -56,13 +54,13 @@ class FizzBuzzTest extends Specification {
 
         where:
 
-        output    | input
-        FIZZ      | 3
-        "2"       | 2
-        FIZZ_BUZZ | 30
-        BUZZ      | 10
-        FIZZ      | 99
-        "17"      | 17
+        output        | input
+        FizzBuzz.FIZZ | 3
+        "2"           | 2
+        FIZZ_BUZZ     | 30
+        FizzBuzz.BUZZ | 10
+        FizzBuzz.FIZZ | 99
+        "17"          | 17
     }
 
     def "isDivisibleBy3Or5 return true if number is divisible by 3 or 5 false otherwise"() {
@@ -104,15 +102,20 @@ class FizzBuzzTest extends Specification {
     def "test main method"() {
         given:
         final FizzBuzz fizzBuzz = new FizzBuzz()
+        def range = FizzBuzz.RANGE_START..FizzBuzz.RANGE_END
 
         when:
         fizzBuzz.main()
 
         then:
         final List lines = capture.toString().tokenize(System.properties['line.separator'])
-        lines.first() == "1"
-        lines.last() == "Buzz"
-        lines.size() == 100
+
+        lines.size() == FizzBuzz.RANGE_END - FizzBuzz.RANGE_START + 1
+
+        lines.count { it == FIZZ_BUZZ } == range.count { it % 15 == 0 }
+        lines.count { it == FizzBuzz.FIZZ } == range.count { it % 3 == 0 && it % 5 != 0 }
+        lines.count { it == FizzBuzz.BUZZ } == range.count { it % 3 != 0 && it % 5 == 0 }
+        lines.count { !(it in [FizzBuzz.BUZZ, FizzBuzz.FIZZ, FIZZ_BUZZ]) } == range.count { it % 3 != 0 && it % 5 != 0 }
     }
 }
 
