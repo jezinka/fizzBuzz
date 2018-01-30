@@ -1,5 +1,7 @@
 package com.jezinka;
 
+import java.util.stream.IntStream;
+
 public class FizzBuzz {
 
     private static final int ZERO = 0;
@@ -15,9 +17,9 @@ public class FizzBuzz {
 
     public static void main(String[] args) {
 
-        for (int i = RANGE_START; i <= RANGE_END; i++) {
-            System.out.println(getOutput(i));
-        }
+        IntStream.rangeClosed(RANGE_START, RANGE_END).forEach(
+                i -> System.out.println(getOutput(i))
+        );
     }
 
     private static String getOutput(Integer input) {

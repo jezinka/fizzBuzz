@@ -1,5 +1,6 @@
 package com.jezinka
 
+import org.springframework.boot.test.OutputCapture
 import spock.lang.Specification
 
 class FizzBuzzTest extends Specification {
@@ -7,6 +8,9 @@ class FizzBuzzTest extends Specification {
     private static final String FIZZ = "Fizz"
     private static final String BUZZ = "Buzz"
     private static final String FIZZ_BUZZ = "FizzBuzz"
+
+    @org.junit.Rule
+    OutputCapture capture = new OutputCapture()
 
     def "getOutput should not throw NullPointerException"() {
         when:
@@ -95,6 +99,20 @@ class FizzBuzzTest extends Specification {
         7  | 4       | false
         11 | 5       | false
         20 | 10      | true
+    }
+
+    def "test main method"() {
+        given:
+        final FizzBuzz fizzBuzz = new FizzBuzz()
+
+        when:
+        fizzBuzz.main()
+
+        then:
+        final List lines = capture.toString().tokenize(System.properties['line.separator'])
+        lines.first() == "1"
+        lines.last() == "Buzz"
+        lines.size() == 100
     }
 }
 
